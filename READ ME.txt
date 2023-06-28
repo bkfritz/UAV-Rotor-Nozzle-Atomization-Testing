@@ -1,0 +1,94 @@
+This code base is written to read in and and process Sympatec data from a study 
+comparing it to the Oxford Laser P15 data from the same study. The data is
+reference nozzle data evaluated in the low speed wind tunnel.  The following measurements and
+measurment conditions.
+Sympatec:
+All reference nozzles
+- Full traverse at 1 and 2 in/s
+- Every inch along the spray plume (Traverse Speed shown as 1 in/s should be 0)
+
+Oxford Laser:
+All reference nozzles
+- Full traverse at 2 in/s
+- Every inch along the spray plume (Traverse Speed shown as 1 in/s should be 0)
+
+Patternator Data as done by UNL PAT Lab group.
+Each reference nozzle was evaluated for spray deposit rate every inch along the spray plume
+at a height of 12 in.  This data will be compared to the Sympatec optical concentration and
+a flux value calculdated from the Oxford Laser data.
+
+
+Notes on what data comparisons to be made.
+1. Compare Sympatec Full scan results at the different air and traverse speeds.
+2. Examine the correlation between the Sympatec optical concentration and the patternator data
+   at the different measurement locations for the spot measurements.
+3. Determine the volume diameter data using the point data weighted by the optical concentration
+    and compare to the full scan results.
+4. Determine the diameter x velocity curves using the Oxford Data, and use to weight the
+    Sympatec lower airspeed data to see if it brings into agreement with the higher airspeed data.
+5. Compare Sympatec and Oxford full scan results at same airspeeds.
+6. Using raw Oxford data, determine the flux at each measurement location and compare to the
+    Sympatec optical concentration and the patternator data.
+7. Using raw Oxford data, determine the volume (flux) weighted and velocity and volume weighted
+    diameter data.
+8. Main object is to determine the best approach to collected data for the UAV rotor wash
+    measurements in which different setups will require multiple location measurements and
+    will be further complicated by different airspeed conditions due to changes in rotor speed.
+
+For each nozzle type, assume their are two measurement methods, full traverse and spot measurements.
+
+For the full traverse, there are two airspeeds and two traverse speeds.
+
+For the spot measurements, there are spot measurements every inch at one airspeed.
+NOTE: I need to redo this data with measurements every inch at both airspeeds (2 and 18 mph).
+
+The nozzles included in this study are:
+11001 @ 65.3 psi
+11003 @ 43.5 psi
+11006 @ 29.0 psi
+8008 @ 31.9 psi
+6510 @ 17.4 psi
+6515 @ 14.5 psi
+
+NOTE that there are two pressures for the 8008, 6510, and 6515 nozzles, but the ones above 
+are those specified by the new ASABE S572.3 Standard.
+
+With this study, all measurements for the Sympatec data were done using the R7 lens, with the droplet diameters
+that define each of the 31 bins being given by the r7_bins list above.  The data in these columns is the cumulative 
+volume distribution data, that is the total percent volume of spray contained in droplet equal to or less than the
+diameter of the bin.  These data are the last 31 columns in the dataframe and are currently labled as
+Ch1 through Ch31.
+
+Files and what they do.
+
+loadAndSaveSympatecData.py:
+    Simply load the Symptec data from excel, slice out only columns of interest, adding in column headers as needed, 
+    then saving the dataframe to a pickle file for later use.  The raw, individual replicate and mean data are 
+    saved to files.
+
+plotMeanSympatecFullTraverseData.py:
+    Loads preprocessed Sympatec data from pickle files and slices out the full traverse data.  Calculates means for each nozzle and 
+    creates bar plots.
+
+plotIncrementalDistributionsFullTraverseMeans.py:
+    Loads preprocessed Sympatec data from pickle file and slices out the full traverse data.  Calculates means for each nozzle and 
+    plots the incremental and cumulative distributions for each.
+
+plotMeanVolumeDiametersAcrossPlume.py:
+    Plots the mean volumns diameters of Sympatec data across the width of the nozzles.
+
+readProcessPicklePatternatorData.py:
+    Reads in the patternator data processes it to get flow data that aligns with study measurement locations 
+    and saves to pickle for later use.
+
+loadAndSaveOxfordData.py:
+    Loads the Oxford data from the individual text files, pre-processes the data, then
+    saves the files to pickle file for later use.
+
+Thoughts on the P15 data....Do I need to process the raw frame by frame data, or can I just use the summary data?
+I think I can just use the summary data.  I need to look at the data to see if there are any issues with the summary data.
+I may need to process the raw data just to get the flux data, but not sure I need this given I can use the Symptec Optical Concentration.
+I think all I really  need from the Oxford data is the droplet diameter by velocity curve data.
+
+
+

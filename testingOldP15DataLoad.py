@@ -348,8 +348,9 @@ for line in lines:
         if param in line:
             param_dict[param] = line.split('\t')[1]
 
-        
-print(param_dict['Test'])
+if param_dict['Aritmetic mean'] > 0:
+    
+
 
 # if DataPickle == True:
 
